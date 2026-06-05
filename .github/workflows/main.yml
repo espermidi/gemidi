@@ -1,0 +1,26 @@
+name: Compilar GeMidi
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Baixar o codigo do repositorio
+      uses: actions/checkout@v4
+
+    - name: Listar arquivos para checagem
+      run: dir
+
+    - name: Compilar o executavel com GCC
+      run: gcc gemidi.c -o gemidi.exe -lwinmm
+
+    - name: Disponibilizar o arquivo para Download
+      uses: actions/upload-artifact@v4
+      with:
+        name: gemidi-windows-exe
+        path: gemidi.exe

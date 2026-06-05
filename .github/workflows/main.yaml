@@ -1,0 +1,25 @@
+name: Compilar GeMidi
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Configurar o Compilador MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Compilar o executavel gemidi.exe
+      run: cl.exe /O2 gemidi.c /link winmm.lib /OUT:gemidi.exe
+
+    - name: Disponibilizar o arquivo para Download
+      uses: actions/upload-artifact@v4
+      with:
+        name: gemidi-windows-exe
+        path: gemidi.exe
